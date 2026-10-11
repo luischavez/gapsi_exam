@@ -1,0 +1,48 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      target: dev
+    environment:
+      GOOGLE_CLOUD_PROJECT: gapsi-exam
+      FIRESTORE_EMULATOR_HOST: firestore:8002
+      JWT_SECRET_KEY: 0f710fb2b0d40f67de44b2cb6d0bf5ee40bd0e0413168afc30853f33ae3aed35
+    volumes:
+      - ./backend:/backend
+    ports:
+      - 9900:8000
+    depends_on:
+      firestore:
+        condition: service_healthy
+  seed:
+    build:
+      context: ./backend
+      target: dev
+    command: python -m scripts.seed
+    environment:
+      GOOGLE_CLOUD_PROJECT: gapsi-exam
+      FIRESTORE_EMULATOR_HOST: firestore:8002
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      firestore:
+        condition: service_healthy
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    ports:
+      - 9901:8001
+  firestore:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    command: gcloud emulators firestore start --host-port=0.0.0.0:8002 --project=gapsi-exam
+    ports:
+      - 9902:8002
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8002"]
+      interval: 5s
+      timeout: 3s
+      retries: 20

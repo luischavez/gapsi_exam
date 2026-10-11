@@ -1,0 +1,27 @@
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <h1>Login</h1>
+
+  <label>
+    Username
+    <input formControlName="username" autocomplete="username" />
+  </label>
+  @if (form.controls.username.touched && form.controls.username.hasError('required')) {
+    <small class="field-error">Username is required</small>
+  }
+
+  <label>
+    Password
+    <input type="password" formControlName="password" autocomplete="current-password" />
+  </label>
+  @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+    <small class="field-error">Password is required</small>
+  }
+
+  @if (error(); as message) {
+    <p class="error" role="alert">{{ message }}</p>
+  }
+
+  <button type="submit" [disabled]="loading()">
+    {{ loading() ? 'Please wait…' : 'Login' }}
+  </button>
+</form>

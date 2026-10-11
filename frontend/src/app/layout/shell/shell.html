@@ -1,0 +1,13 @@
+<header class="topbar">
+  <a class="brand" routerLink="/issues">Issue Tracker</a>
+  <div class="session">
+    @if (user(); as user) {
+      <span>{{ user.username }}</span>
+    }
+    <button type="button" class="secondary" (click)="logout()">Logout</button>
+  </div>
+</header>
+
+<main class="content">
+  <router-outlet />
+</main>

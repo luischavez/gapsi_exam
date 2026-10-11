@@ -1,0 +1,53 @@
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <h1>New issue</h1>
+
+  <label>
+    Title
+    <input formControlName="title" [attr.maxlength]="titleMaxLength" />
+  </label>
+  @let title = form.controls.title;
+  @if (title.touched && title.invalid) {
+    <small class="field-error">
+      @if (title.hasError('maxlength')) {
+        Title can't be longer than {{ titleMaxLength }} characters
+      } @else {
+        Title is required
+      }
+    </small>
+  }
+
+  <label>
+    Description
+    <textarea formControlName="description" rows="6" [attr.maxlength]="descriptionMaxLength"></textarea>
+  </label>
+  @let description = form.controls.description;
+  @if (description.touched && description.invalid) {
+    <small class="field-error">
+      @if (description.hasError('maxlength')) {
+        Description can't be longer than {{ descriptionMaxLength }} characters
+      } @else {
+        Description is required
+      }
+    </small>
+  }
+
+  <label>
+    Priority
+    <select formControlName="priority">
+      @for (priority of priorities; track priority) {
+        <option [ngValue]="priority">{{ priorityLabels[priority] }}</option>
+      }
+    </select>
+  </label>
+
+  @if (error(); as message) {
+    <p class="error" role="alert">{{ message }}</p>
+  }
+
+  <div class="actions">
+    <a class="button secondary" routerLink="/issues">Cancel</a>
+    <button type="submit" [disabled]="saving()">
+      {{ saving() ? 'Saving…' : 'Create issue' }}
+    </button>
+  </div>
+</form>

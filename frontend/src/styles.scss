@@ -1,0 +1,151 @@
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1f2328;
+  --muted: #656d76;
+  --border: #d8dee4;
+  --primary: #2f6feb;
+  --primary-hover: #2459c4;
+  --danger: #cf222e;
+  --radius: 8px;
+
+  --priority-high: #cf222e;
+  --priority-medium: #bf8700;
+  --priority-low: #8c959f;
+
+  --status-open: #2f6feb;
+  --status-progress: #bf8700;
+  --status-done: #1a7f37;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+input,
+textarea,
+select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+
+  &:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: -1px;
+  }
+
+  &.ng-touched.ng-invalid {
+    border-color: var(--danger);
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+button,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--primary-hover);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.secondary {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text);
+
+    &:hover {
+      background: var(--bg);
+    }
+  }
+
+  &.link {
+    padding: 8px 4px;
+    background: none;
+    color: var(--primary);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #ffebe9;
+  color: var(--danger);
+}
+
+.field-error {
+  margin-top: -10px;
+  color: var(--danger);
+}
+
+.muted {
+  color: var(--muted);
+}

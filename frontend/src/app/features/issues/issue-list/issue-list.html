@@ -1,0 +1,91 @@
+<div class="page-header">
+  <h1>Issues</h1>
+  <a class="button" routerLink="new">New issue</a>
+</div>
+
+@if (summary(); as summary) {
+  <app-issue-summary [summary]="summary" />
+}
+
+<form class="filters" [formGroup]="filters">
+  <label>
+    Status
+    <select formControlName="status">
+      <option [ngValue]="null">All</option>
+      @for (status of statuses; track status) {
+        <option [ngValue]="status">{{ statusLabels[status] }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    Priority
+    <select formControlName="priority">
+      <option [ngValue]="null">All</option>
+      @for (priority of priorities; track priority) {
+        <option [ngValue]="priority">{{ priorityLabels[priority] }}</option>
+      }
+    </select>
+  </label>
+
+  <button type="button" class="link" (click)="clearFilters()">Clear filters</button>
+
+  <label class="page-size">
+    Show
+    <select [formControl]="pageSize">
+      @for (size of pageSizes; track size) {
+        <option [ngValue]="size">{{ size }}</option>
+      }
+    </select>
+  </label>
+</form>
+
+@if (error(); as message) {
+  <p class="error" role="alert">{{ message }}</p>
+}
+
+<ul class="issues">
+  @for (issue of issues(); track issue.id) {
+    <li class="issue" [attr.data-priority]="issue.priority">
+      <div class="issue-main">
+        <h2>{{ issue.title }}</h2>
+        <p>{{ issue.description }}</p>
+        <small>{{ issue.created_by }} · {{ issue.created_at | date: 'medium' }}</small>
+      </div>
+
+      <div class="issue-controls">
+        <label>
+          Status
+          <select #statusSelect (change)="changeStatus(issue, statusSelect)">
+            @for (status of statuses; track status) {
+              <option [value]="status" [selected]="status === issue.status">
+                {{ statusLabels[status] }}
+              </option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Priority
+          <select #prioritySelect (change)="changePriority(issue, prioritySelect)">
+            @for (priority of priorities; track priority) {
+              <option [value]="priority" [selected]="priority === issue.priority">
+                {{ priorityLabels[priority] }}
+              </option>
+            }
+          </select>
+        </label>
+      </div>
+    </li>
+  } @empty {
+    @if (!loading()) {
+      <li class="empty">No issues found</li>
+    }
+  }
+</ul>
+
+@if (loading()) {
+  <p class="muted">Loading…</p>
+} @else if (nextCursor()) {
+  <button type="button" class="secondary load-more" (click)="loadMore()">Load more</button>
+}

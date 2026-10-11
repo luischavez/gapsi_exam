@@ -1,0 +1,5 @@
+project_id = "my-gcp-project"
+region     = "us-central1"
+
+# leave it commented out on the first apply, set it once the image is pushed
+# backend_image_tag = "v1"

@@ -1,0 +1,12 @@
+<section class="summary" aria-label="Issues summary">
+  <div class="summary-item">
+    <span class="summary-value">{{ summary().total }}</span>
+    <span class="summary-label">Total</span>
+  </div>
+  @for (status of statuses; track status) {
+    <div class="summary-item" [attr.data-status]="status">
+      <span class="summary-value">{{ summary().by_status[status] }}</span>
+      <span class="summary-label">{{ statusLabels[status] }}</span>
+    </div>
+  }
+</section>

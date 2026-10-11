@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "gapsi-511219"
+  },
+  "targets": {
+    "gapsi-511219": {
+      "hosting": {
+        "app": ["gapsi-511219"]
+      }
+    }
+  }
+}
